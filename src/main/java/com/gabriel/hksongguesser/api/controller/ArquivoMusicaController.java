@@ -1,0 +1,79 @@
+package com.gabriel.hksongguesser.api.controller;
+
+import com.gabriel.hksongguesser.api.assembler.ArquivoMusicaAssembler;
+import com.gabriel.hksongguesser.api.domain.model.ArquivoMusicaCompletoModel;
+import com.gabriel.hksongguesser.api.domain.request.ArquivoMusicaRequest;
+import com.gabriel.hksongguesser.core.config.ConfigProperties;
+import com.gabriel.hksongguesser.core.infrastructure.storage.StorageProperties;
+import com.gabriel.hksongguesser.domain.exception.EntidadeNaoEncontradaException;
+import com.gabriel.hksongguesser.domain.model.ArquivoMusica;
+import com.gabriel.hksongguesser.domain.service.ArquivoMusicaService;
+import com.gabriel.hksongguesser.domain.service.MusicaArquivoStorageService;
+import com.gabriel.hksongguesser.domain.service.MusicaService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
+import static org.springframework.http.MediaType.parseMediaType;
+import static org.springframework.http.MediaType.parseMediaTypes;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("musicas/{musicaId}/arquivo")
+public class ArquivoMusicaController {
+
+    private MusicaService musicaService;
+    private ArquivoMusicaService arquivoMusicaService;
+    private StorageProperties storageProperties;
+
+    private ConfigProperties configProperties;
+    private MusicaArquivoStorageService storageService;
+    private ArquivoMusicaAssembler assembler;
+
+
+    @GetMapping(produces = MediaType.ALL_VALUE)
+    public ResponseEntity<?> servirArquivo(@PathVariable Long musicaId) {
+        try {
+            var arquivoMusica = arquivoMusicaService.buscarPorId(musicaId);
+
+            var arquivoRecuperado = storageService.recuperarArquivo(arquivoMusica.getNomeArquivo());
+            var contentType = parseMediaType(arquivoMusica.getContentType());
+
+            return ResponseEntity.ok()
+                    .contentType(contentType)
+                    .body(new InputStreamResource(arquivoRecuperado.getInputStream()));
+
+        } catch (EntidadeNaoEncontradaException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ArquivoMusicaCompletoModel novoArquivo(@PathVariable Long musicaId, @Valid ArquivoMusicaRequest request) throws IOException {
+
+        var musica = musicaService.buscarPorId(musicaId);
+        var arquivo = request.getArquivo();
+
+        var novoArquivoMusica = new ArquivoMusica();
+        novoArquivoMusica.setMusica(musica);
+        novoArquivoMusica.setNomeArquivo(arquivo.getOriginalFilename());
+        novoArquivoMusica.setTamanho(arquivo.getSize());
+        novoArquivoMusica.setContentType(arquivo.getContentType());
+        musica.setDiretorio(String.format("%s/musicas/%d/arquivo", configProperties.getUrl(), musica.getId()));
+
+        var diretorio = Path.of(storageProperties.getLocal().getDiretorioArquivos().toUri()).toString();
+        novoArquivoMusica.setDiretorio(String.format("%s/%s", diretorio, novoArquivoMusica.getNomeArquivo()));
+
+        return assembler.toModel(arquivoMusicaService.salvar(novoArquivoMusica, arquivo.getInputStream()));
+    }
+
+
+
+}
