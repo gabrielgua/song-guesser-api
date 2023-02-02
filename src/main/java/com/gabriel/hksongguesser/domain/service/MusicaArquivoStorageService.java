@@ -15,6 +15,11 @@ public interface MusicaArquivoStorageService {
     Path getArquivoPath(String nomeArquivoMusica);
     MusicaArquivoStorageModel recuperarArquivo(String nomeArquivoMusica);
 
+    default void substituir(String nomeArquivoExistente, MusicaArquivoStorageRequest novoArquivo) {
+        if (!nomeArquivoExistente.isBlank()) remover(nomeArquivoExistente);
+        armazenar(novoArquivo);
+    }
+
     @Getter
     @Builder
     class MusicaArquivoStorageRequest {

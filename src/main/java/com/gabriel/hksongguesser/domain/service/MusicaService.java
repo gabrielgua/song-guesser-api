@@ -26,7 +26,7 @@ public class MusicaService {
         return repository.findById(id).orElseThrow(() -> new MusicaNaoEncontradaException(id));
     }
 
-    public Musica adicionar(Musica musica) {
+    public Musica salvar(Musica musica) {
         return repository.save(musica);
     }
 

@@ -37,7 +37,14 @@ public class MusicaController {
     @PostMapping
     public MusicaModel salvar(@RequestBody MusicaRequest request) {
         var musica = assembler.toEntity(request);
-        return assembler.toModel(service.adicionar(musica));
+        return assembler.toModel(service.salvar(musica));
+    }
+
+    @PutMapping("/{musicaId}")
+    public MusicaCompletaModel editar(@PathVariable Long musicaId, @RequestBody MusicaRequest request) {
+        var musica = service.buscarPorId(musicaId);
+        assembler.copyToEntity(request, musica);
+        return assembler.toCompletaModel(service.salvar(musica));
     }
 
     @DeleteMapping("/{musicaId}")
@@ -45,4 +52,5 @@ public class MusicaController {
         var musica = service.buscarPorId(musicaId);
         service.remover(musica);
     }
+
 }

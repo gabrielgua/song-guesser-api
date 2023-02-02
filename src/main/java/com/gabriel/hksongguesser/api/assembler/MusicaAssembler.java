@@ -29,6 +29,10 @@ public class MusicaAssembler {
         return modelMapper.map(request, Musica.class);
     }
 
+    public void copyToEntity(MusicaRequest request, Musica musica) {
+        modelMapper.map(request, musica);
+    }
+
     public List<MusicaModel> toCollectionModel(List<Musica> musicas) {
         return musicas.stream()
                 .map(this::toModel)

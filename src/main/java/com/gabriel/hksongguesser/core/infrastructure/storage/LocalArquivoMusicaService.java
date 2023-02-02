@@ -5,6 +5,7 @@ import com.gabriel.hksongguesser.domain.service.MusicaArquivoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -39,7 +40,12 @@ public class LocalArquivoMusicaService implements MusicaArquivoStorageService {
 
     @Override
     public void remover(String nomeArquivoMusica) {
-
+        Path path = getArquivoPath(nomeArquivoMusica);
+        try {
+            Files.deleteIfExists(path);
+        } catch (Exception ex) {
+            throw new NegocioException("Não foi possível remover o arquivo do armazenamento", ex);
+        }
     }
 
 

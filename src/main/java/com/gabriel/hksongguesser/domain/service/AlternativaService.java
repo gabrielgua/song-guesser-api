@@ -7,16 +7,13 @@ import com.gabriel.hksongguesser.domain.repository.AlternativaRespository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
-
 public class AlternativaService {
 
     private static final Integer ALTERNATIVAS_POR_PERGUNTA = 5;
-
 
     private AlternativaRespository respository;
 
