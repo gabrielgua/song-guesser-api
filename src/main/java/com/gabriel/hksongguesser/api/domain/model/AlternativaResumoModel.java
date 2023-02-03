@@ -5,12 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MusicaCompletaModel {
+public class AlternativaResumoModel {
 
     private Long id;
     private String nome;
-    private String diretorio;
-
-    private AlternativaResumoModel alternativa;
-    private ArquivoMusicaModel arquivo;
 }
+
+

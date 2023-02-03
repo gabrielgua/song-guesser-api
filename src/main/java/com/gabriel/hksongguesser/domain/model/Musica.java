@@ -16,6 +16,9 @@ public class Musica {
     private String nome;
     private String diretorio;
 
+    @OneToOne(mappedBy = "musica")
+    private Alternativa alternativa;
+
     @OneToOne(mappedBy = "musica", cascade = CascadeType.REMOVE)
     private ArquivoMusica arquivo;
 }
