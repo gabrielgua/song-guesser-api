@@ -6,6 +6,8 @@ import lombok.Getter;
 public enum ProblemaType {
 
     ERRO_GENERICO("/erro-generico", "Erro genérico"),
+
+    ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
     ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada");
 
     private final String uri;

@@ -4,6 +4,7 @@ import com.gabriel.hksongguesser.api.assembler.MusicaAssembler;
 import com.gabriel.hksongguesser.api.domain.model.MusicaCompletaModel;
 import com.gabriel.hksongguesser.api.domain.model.MusicaModel;
 import com.gabriel.hksongguesser.api.domain.request.MusicaRequest;
+import com.gabriel.hksongguesser.domain.service.ArquivoMusicaService;
 import com.gabriel.hksongguesser.domain.service.MusicaService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 public class MusicaController {
 
     private MusicaService service;
+    private ArquivoMusicaService arquivoService;
     private MusicaAssembler assembler;
 
     @GetMapping
@@ -51,6 +53,7 @@ public class MusicaController {
     public void remover(@PathVariable Long musicaId) {
         var musica = service.buscarPorId(musicaId);
         service.remover(musica);
+
     }
 
 }

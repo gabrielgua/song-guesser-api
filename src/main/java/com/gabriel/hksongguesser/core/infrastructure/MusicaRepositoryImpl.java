@@ -2,6 +2,7 @@ package com.gabriel.hksongguesser.core.infrastructure;
 
 import com.gabriel.hksongguesser.domain.model.ArquivoMusica;
 import com.gabriel.hksongguesser.domain.repository.MusicaRepositoryQueries;
+import com.gabriel.hksongguesser.domain.service.ArquivoMusicaService;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,8 +15,6 @@ public class MusicaRepositoryImpl implements MusicaRepositoryQueries {
 
     @Autowired
     private EntityManager manager;
-
-
 
     @Override
     @Transactional

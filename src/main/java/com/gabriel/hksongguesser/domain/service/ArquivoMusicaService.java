@@ -1,5 +1,6 @@
 package com.gabriel.hksongguesser.domain.service;
 
+import com.gabriel.hksongguesser.domain.exception.ArquivoNaoEncontradoException;
 import com.gabriel.hksongguesser.domain.exception.MusicaNaoEncontradaException;
 import com.gabriel.hksongguesser.domain.model.ArquivoMusica;
 import com.gabriel.hksongguesser.domain.model.Musica;
@@ -41,6 +42,11 @@ public class ArquivoMusicaService {
     }
 
     public ArquivoMusica buscarPorId(Long musicaId) {
-        return musicaRepository.findArquivoById(musicaId).orElseThrow(() -> new MusicaNaoEncontradaException(musicaId));
+        return musicaRepository.findArquivoById(musicaId).orElseThrow(() -> new ArquivoNaoEncontradoException(musicaId));
+    }
+
+    @Transactional
+    public void remover(ArquivoMusica arquivoMusica) {
+        storageService.remover(arquivoMusica.getNomeArquivo());
     }
 }

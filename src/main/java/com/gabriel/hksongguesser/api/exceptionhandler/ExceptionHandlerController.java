@@ -1,5 +1,6 @@
 package com.gabriel.hksongguesser.api.exceptionhandler;
 
+import com.gabriel.hksongguesser.domain.exception.EntidadeEmUsoException;
 import com.gabriel.hksongguesser.domain.exception.EntidadeNaoEncontradaException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,19 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
                 .userMessage(detail)
                 .build();
 
+
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(EntidadeEmUsoException.class)
+    public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoException ex, WebRequest request) {
+        var status = HttpStatus.CONFLICT;
+        var detail = ex.getMessage();
+        var type = ProblemaType.ENTIDADE_EM_USO;
+
+        var problema = createProblemBuilder(status, type, detail)
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }
