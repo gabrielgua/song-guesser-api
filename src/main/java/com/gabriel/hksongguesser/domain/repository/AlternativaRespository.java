@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface AlternativaRespository extends JpaRepository<Alternativa, Long> {
 
-    Optional<Alternativa> findByMusica(Musica musica);
+    Alternativa findByMusica(Musica musica);
 
 }

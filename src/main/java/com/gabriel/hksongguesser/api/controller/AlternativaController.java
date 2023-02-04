@@ -3,6 +3,7 @@ package com.gabriel.hksongguesser.api.controller;
 import com.gabriel.hksongguesser.api.assembler.AlternativaAssembler;
 import com.gabriel.hksongguesser.api.domain.model.AlternativaModel;
 import com.gabriel.hksongguesser.api.domain.request.AlternativaRequest;
+import com.gabriel.hksongguesser.api.domain.request.AlternativaResumoRequest;
 import com.gabriel.hksongguesser.domain.service.AlternativaService;
 import com.gabriel.hksongguesser.domain.service.MusicaService;
 import jakarta.validation.Valid;
@@ -35,7 +36,14 @@ public class AlternativaController {
         var musica = musicaService.buscarPorId(request.getMusicaId());
         var alternativa = assembler.toEntity(request);
         alternativa.setMusica(musica);
-        return assembler.toModel(alternativaService.adicionar(alternativa));
+        return assembler.toModel(alternativaService.salvar(alternativa));
+    }
+
+    @PutMapping("/{alternativaId}")
+    public AlternativaModel editar(@PathVariable Long alternativaId, @Valid @RequestBody AlternativaResumoRequest request) {
+        var alternativa = alternativaService.buscarPorId(alternativaId);
+        assembler.copyToEntity(request, alternativa);
+        return assembler.toModel(alternativaService.salvar(alternativa));
     }
 
     @DeleteMapping("/{alternativaId}")

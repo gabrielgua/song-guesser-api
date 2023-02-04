@@ -31,11 +31,11 @@ public class PerguntaController {
         var perguntas = new ArrayList<Pergunta>();
         musicas.forEach(musica -> {
             if (musica.getArquivo() != null) {
-                var pergunta = new Pergunta();
-                pergunta.setId(musica.getId());
-                pergunta.setMusica(musica);
+                if (musica.getAlternativa() != null) {
+                    var pergunta = new Pergunta();
+                    pergunta.setId(musica.getId());
+                    pergunta.setMusica(musica);
 
-                if (alternativaService.buscarPorMusica(musica).isPresent()) {
                     pergunta.setAlternativas(alternativaService.gerarAlternativasParaMusica(musica));
                     perguntas.add(pergunta);
                 }

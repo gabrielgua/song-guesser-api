@@ -2,6 +2,7 @@ package com.gabriel.hksongguesser.api.assembler;
 
 import com.gabriel.hksongguesser.api.domain.model.AlternativaModel;
 import com.gabriel.hksongguesser.api.domain.request.AlternativaRequest;
+import com.gabriel.hksongguesser.api.domain.request.AlternativaResumoRequest;
 import com.gabriel.hksongguesser.domain.model.Alternativa;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class AlternativaAssembler {
 
     public Alternativa toEntity(AlternativaRequest request) {
         return modelMapper.map(request, Alternativa.class);
+    }
+
+    public void copyToEntity(AlternativaResumoRequest request, Alternativa alternativa) {
+        modelMapper.map(request, alternativa);
     }
 
     public List<AlternativaModel> toCollectionModel(List<Alternativa> alternativas) {

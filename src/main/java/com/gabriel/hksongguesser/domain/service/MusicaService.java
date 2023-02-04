@@ -40,7 +40,9 @@ public class MusicaService {
         try {
             repository.delete(musica);
             repository.flush();
-            arquivoService.remover(musica.getArquivo());
+            if (musica.getArquivo() != null) {
+                arquivoService.remover(musica.getArquivo());
+            }
         } catch (EmptyResultDataAccessException ex) {
             throw new MusicaNaoEncontradaException(ex.getMessage());
         } catch (DataIntegrityViolationException ex) {

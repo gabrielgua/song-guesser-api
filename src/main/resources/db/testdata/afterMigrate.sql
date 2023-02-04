@@ -2,14 +2,11 @@ set foreign_key_checks = 0;
 
 delete from alternativa;
 delete from musica;
-delete from pergunta;
-delete from pergunta_alternativa;
 
 set foreign_key_checks = 1;
 
 alter table alternativa auto_increment = 1;
 alter table musica auto_increment = 1;
-alter table pergunta auto_increment = 1;
 
 insert into musica (id, nome, diretorio) values
 (1, 'Dirtmouth', 'http://localhost:8080/musicas/1/arquivo'),
@@ -38,14 +35,3 @@ insert into alternativa (id, nome, musica_id) values
 (11, 'Enter Hollownest', 11);
 
 
-insert into pergunta (id, musica_id) values
-(1, 1),
-(2, 4),
-(3, 2),
-(4, 3);
-
-insert into pergunta_alternativa (pergunta_id, alternativa_id) values
-(1, 1), (1, 4), (1, 3),
-(2, 1), (2, 2), (2, 4),
-(3, 4), (3, 3), (3, 1),
-(4, 2), (4, 1), (4, 4);
