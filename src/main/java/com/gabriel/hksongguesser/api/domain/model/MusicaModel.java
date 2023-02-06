@@ -9,5 +9,5 @@ public class MusicaModel {
 
     private Long id;
     private String nome;
-    private String diretorio;
+    private String arquivoDiretorio;
 }

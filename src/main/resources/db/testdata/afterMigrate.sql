@@ -8,18 +8,18 @@ set foreign_key_checks = 1;
 alter table alternativa auto_increment = 1;
 alter table musica auto_increment = 1;
 
-insert into musica (id, nome, diretorio) values
-(1, 'Dirtmouth', 'http://localhost:8080/musicas/1/arquivo'),
-(2, 'Greenpath', 'http://localhost:8080/musicas/2/arquivo'),
-(3, 'Crossroads', 'http://localhost:8080/musicas/3/arquivo'),
-(4, 'City of Tears', 'http://localhost:8080/musicas/4/arquivo'),
-(5, 'Hornet', 'http://localhost:8080/musicas/5/arquivo'),
-(6, 'Mantis Lords', 'http://localhost:8080/musicas/6/arquivo'),
-(7, 'Crystal Peak', 'http://localhost:8080/musicas/7/arquivo'),
-(8, 'Fungal Wastes', 'http://localhost:8080/musicas/8/arquivo'),
-(9, 'Soul Sanctum', 'http://localhost:8080/musicas/9/arquivo'),
-(10, 'Resting Grounds', 'http://localhost:8080/musicas/10/arquivo'),
-(11, 'Enter Hollownest', 'http://localhost:8080/musicas/11/arquivo');
+insert into musica (id, nome) values
+(1, 'Dirtmouth'),
+(2, 'Greenpath'),
+(3, 'Crossroads'),
+(4, 'City of Tears'),
+(5, 'Hornet'),
+(6, 'Mantis Lords'),
+(7, 'Crystal Peak'),
+(8, 'Fungal Wastes'),
+(9, 'Soul Sanctum'),
+(10, 'Resting Grounds'),
+(11, 'Enter Hollownest');
 
 insert into alternativa (id, nome, musica_id) values
 (1, 'Dirtmouth', 1),

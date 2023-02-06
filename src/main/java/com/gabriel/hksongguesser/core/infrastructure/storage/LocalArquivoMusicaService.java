@@ -48,8 +48,11 @@ public class LocalArquivoMusicaService implements MusicaArquivoStorageService {
         }
     }
 
-
     @Override
+    public String gerarUrlArquivo(String nomeArquivo) {
+        return getArquivoPath(nomeArquivo).toString();
+    }
+
     public Path getArquivoPath(String nomeArquivoMusica) {
         return properties.getLocal().getDiretorioArquivos().resolve(Path.of(nomeArquivoMusica));
     }

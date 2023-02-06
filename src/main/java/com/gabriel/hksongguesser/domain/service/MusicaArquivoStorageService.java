@@ -5,14 +5,14 @@ import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.nio.file.Path;
 
 @Service
 public interface MusicaArquivoStorageService {
 
     void armazenar(MusicaArquivoStorageRequest request);
     void remover(String nomeArquivoMusica);
-    Path getArquivoPath(String nomeArquivoMusica);
+
+    String gerarUrlArquivo(String nomeArquivo);
     MusicaArquivoStorageModel recuperarArquivo(String nomeArquivoMusica);
 
     default void substituir(String nomeArquivoExistente, MusicaArquivoStorageRequest novoArquivo) {

@@ -9,7 +9,6 @@ create table alternativa (
 create table musica (
     id bigint not null auto_increment,
     nome varchar(60) not null,
-    diretorio varchar(60),
 
     primary key (id)
 ) engine=InnoDB default charset=UTF8MB4;

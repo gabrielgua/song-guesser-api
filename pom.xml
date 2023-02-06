@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>19</java.version>
 		<modelmapper.version>3.1.0</modelmapper.version>
+		<aws.s3.version>1.12.338</aws.s3.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -34,6 +35,11 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>${modelmapper.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>${aws.s3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>

@@ -14,7 +14,6 @@ public class Musica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String diretorio;
 
     @OneToOne(mappedBy = "musica")
     private Alternativa alternativa;

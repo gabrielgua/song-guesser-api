@@ -30,9 +30,6 @@ public class ArquivoMusicaController {
 
     private MusicaService musicaService;
     private ArquivoMusicaService arquivoMusicaService;
-    private StorageProperties storageProperties;
-
-    private ConfigProperties configProperties;
     private MusicaArquivoStorageService storageService;
     private ArquivoMusicaAssembler assembler;
 
@@ -66,10 +63,6 @@ public class ArquivoMusicaController {
         novoArquivoMusica.setNomeArquivo(arquivo.getOriginalFilename());
         novoArquivoMusica.setTamanho(arquivo.getSize());
         novoArquivoMusica.setContentType(arquivo.getContentType());
-        musica.setDiretorio(String.format("%s/musicas/%d/arquivo", configProperties.getUrl(), musica.getId()));
-
-        var diretorio = Path.of(storageProperties.getLocal().getDiretorioArquivos().toUri()).toString();
-        novoArquivoMusica.setDiretorio(String.format("%s/%s", diretorio, novoArquivoMusica.getNomeArquivo()));
 
         return assembler.toModel(arquivoMusicaService.salvar(novoArquivoMusica, arquivo.getInputStream()));
     }
