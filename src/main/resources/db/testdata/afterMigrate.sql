@@ -34,4 +34,6 @@ insert into alternativa (id, nome, musica_id) values
 (10, 'City of Tears', 4),
 (11, 'Enter Hollownest', 11);
 
+insert into usuario (id, email, senha) values (1, 'admin@guesser.com', '$2a$12$WJLg78O1Q6LAOUwyW67Oie8zlSlSEbGvBeSViIvXgpKC5JUTTIJdi');
+
 
