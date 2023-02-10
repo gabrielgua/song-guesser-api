@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig {
 
     private static final String[] AUTH_WHITELIST = { "/login", "/logout", "/oauth2/logout" };
@@ -26,7 +28,7 @@ public class ResourceServerConfig {
             try {
                 authorize
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/perguntas").anonymous()
+                        .requestMatchers("/perguntas/*").anonymous()
                         .and().authorizeHttpRequests().anyRequest().authenticated()
                         .and().logout()
                             .clearAuthentication(true)

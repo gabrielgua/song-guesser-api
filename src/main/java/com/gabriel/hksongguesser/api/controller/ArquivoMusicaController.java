@@ -3,6 +3,7 @@ package com.gabriel.hksongguesser.api.controller;
 import com.gabriel.hksongguesser.api.assembler.ArquivoMusicaAssembler;
 import com.gabriel.hksongguesser.api.domain.model.ArquivoMusicaCompletoModel;
 import com.gabriel.hksongguesser.api.domain.request.ArquivoMusicaRequest;
+import com.gabriel.hksongguesser.api.security.CheckSecurity;
 import com.gabriel.hksongguesser.core.config.ConfigProperties;
 import com.gabriel.hksongguesser.core.infrastructure.storage.StorageProperties;
 import com.gabriel.hksongguesser.domain.exception.EntidadeNaoEncontradaException;
@@ -35,6 +36,7 @@ public class ArquivoMusicaController {
 
 
     @GetMapping(produces = MediaType.ALL_VALUE)
+    @CheckSecurity.Recursos.podeConsultar
     public ResponseEntity<?> servirArquivo(@PathVariable Long musicaId) {
         try {
             var arquivoMusica = arquivoMusicaService.buscarPorId(musicaId);
@@ -53,6 +55,7 @@ public class ArquivoMusicaController {
 
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @CheckSecurity.Recursos.podeGerenciar
     public ArquivoMusicaCompletoModel novoArquivo(@PathVariable Long musicaId, @Valid ArquivoMusicaRequest request) throws IOException {
 
         var musica = musicaService.buscarPorId(musicaId);

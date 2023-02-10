@@ -2,6 +2,7 @@ package com.gabriel.hksongguesser.domain.service;
 
 import com.gabriel.hksongguesser.domain.exception.AlternativaNaoEncontradaException;
 import com.gabriel.hksongguesser.domain.exception.EntidadeEmUsoException;
+import com.gabriel.hksongguesser.domain.exception.MusicaJaPossuiAlternativaException;
 import com.gabriel.hksongguesser.domain.model.Alternativa;
 import com.gabriel.hksongguesser.domain.model.Musica;
 import com.gabriel.hksongguesser.domain.repository.AlternativaRespository;
@@ -19,6 +20,7 @@ public class AlternativaService {
 
     private AlternativaRespository respository;
 
+    private MusicaService musicaService;
 
 
     public List<Alternativa> buscarTodos() {
@@ -30,6 +32,11 @@ public class AlternativaService {
     }
 
     public Alternativa salvar(Alternativa alternativa) {
+        var musica = musicaService.buscarPorId(alternativa.getMusica().getId());
+        if (musica.getAlternativa() != null) {
+            throw new MusicaJaPossuiAlternativaException(String.format("Música de id: #%S já possui uma alternativa.", musica.getId()));
+        }
+
         return respository.save(alternativa);
     }
 

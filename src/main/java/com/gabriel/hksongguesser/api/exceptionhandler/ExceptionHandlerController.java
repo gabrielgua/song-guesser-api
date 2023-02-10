@@ -2,6 +2,8 @@ package com.gabriel.hksongguesser.api.exceptionhandler;
 
 import com.gabriel.hksongguesser.domain.exception.EntidadeEmUsoException;
 import com.gabriel.hksongguesser.domain.exception.EntidadeNaoEncontradaException;
+import com.gabriel.hksongguesser.domain.exception.NegocioException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -10,11 +12,37 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.OffsetDateTime;
 
+@Slf4j
 @RestControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     private static final String MSG_ERRO_GENERICO = "Erro interno no sistema. Por favor tente novamente mais tarde.";
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleUncaught(Exception ex, WebRequest request) {
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+        var type = ProblemaType.ERRO_GENERICO;
+        var detail = MSG_ERRO_GENERICO;
+
+        var problema = createProblemBuilder(status, type, detail)
+                .userMessage(detail)
+                .build();
+        log.error(ex.getMessage(), ex);
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(NegocioException.class)
+    public ResponseEntity<?> handleNegocio(NegocioException ex, WebRequest request) {
+        var status = HttpStatus.BAD_REQUEST;
+        var type = ProblemaType.ERRO_GENERICO;
+        var detail = ex.getMessage();
+
+        var problema = createProblemBuilder(status, type, detail)
+                .userMessage(detail)
+                .build();
+
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<?> handleEntidadeNaoEcontrada(EntidadeNaoEncontradaException ex, WebRequest request) {
@@ -25,7 +53,6 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         var problema = createProblemBuilder(status, type, detail)
                 .userMessage(detail)
                 .build();
-
 
         return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }

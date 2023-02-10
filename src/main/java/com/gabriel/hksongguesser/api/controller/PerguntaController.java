@@ -3,6 +3,7 @@ package com.gabriel.hksongguesser.api.controller;
 import com.gabriel.hksongguesser.api.assembler.PerguntaAssembler;
 import com.gabriel.hksongguesser.api.domain.model.PerguntaModel;
 import com.gabriel.hksongguesser.api.domain.request.RespostaRequest;
+import com.gabriel.hksongguesser.api.security.CheckSecurity;
 import com.gabriel.hksongguesser.domain.model.Pergunta;
 import com.gabriel.hksongguesser.domain.service.AlternativaService;
 import com.gabriel.hksongguesser.domain.service.MusicaService;
@@ -26,6 +27,7 @@ public class PerguntaController {
 
 
     @GetMapping("/gerar")
+    @CheckSecurity.Perguntas.podeGerar
     public List<PerguntaModel> gerarPergunta() {
         var musicas = musicaService.buscarTodos();
         var perguntas = new ArrayList<Pergunta>();
@@ -47,6 +49,7 @@ public class PerguntaController {
     }
 
     @PostMapping("/responder")
+    @CheckSecurity.Perguntas.podeResponder
     public boolean reponder(@RequestBody RespostaRequest request) {
         return respostaService.isAltenativaCorreta(request.getMusicaId(), request.getAlternativaId());
     }
