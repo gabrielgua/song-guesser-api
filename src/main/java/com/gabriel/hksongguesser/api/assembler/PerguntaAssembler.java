@@ -1,5 +1,6 @@
 package com.gabriel.hksongguesser.api.assembler;
 
+import com.gabriel.hksongguesser.api.domain.model.PerguntaHardModel;
 import com.gabriel.hksongguesser.api.domain.model.PerguntaModel;
 import com.gabriel.hksongguesser.domain.model.Pergunta;
 import org.modelmapper.ModelMapper;
@@ -19,9 +20,11 @@ public class PerguntaAssembler {
         return modelMapper.map(pergunta, PerguntaModel.class);
     }
 
+
     public List<PerguntaModel> toCollectionList(List<Pergunta> perguntas) {
         return perguntas.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
     }
+
 }
