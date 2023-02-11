@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,15 +21,14 @@ import java.util.List;
 @EnableMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig {
 
-    private static final String[] AUTH_WHITELIST = { "/login", "/logout", "/oauth2/logout" };
+    private static final String[] AUTH_WHITELIST = { "/login", "/logout", "/oauth2/logout", "/perguntas/*" };
 
     @Bean
-    public SecurityFilterChain authFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain authFilterChain(HttpSecurity http, AuthProperties properties) throws Exception {
         http.authorizeHttpRequests((authorize) -> {
             try {
                 authorize
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers("/perguntas/*").anonymous()
                         .and().authorizeHttpRequests().anyRequest().authenticated()
                         .and().logout()
                             .clearAuthentication(true)
@@ -42,6 +42,19 @@ public class ResourceServerConfig {
                 throw new RuntimeException(e);
             }
         });
+
+        http.logout(logoutConfig -> {
+            logoutConfig.logoutSuccessHandler((request, response, authentication) -> {
+                String returnTo = request.getParameter("returnTo");
+                if (!StringUtils.hasText(returnTo)) {
+                    returnTo = properties.getProviderUrl();
+                }
+
+                response.setStatus(302);
+                response.sendRedirect(returnTo);
+            });
+        });
+
 
         http.formLogin(Customizer.withDefaults());
         return http.build();

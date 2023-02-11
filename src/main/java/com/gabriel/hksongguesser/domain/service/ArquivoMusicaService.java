@@ -1,6 +1,6 @@
 package com.gabriel.hksongguesser.domain.service;
 
-import com.gabriel.hksongguesser.core.config.ConfigProperties;
+import com.gabriel.hksongguesser.api.security.AuthProperties;
 import com.gabriel.hksongguesser.core.infrastructure.storage.StorageProperties;
 import com.gabriel.hksongguesser.domain.exception.ArquivoNaoEncontradoException;
 import com.gabriel.hksongguesser.domain.model.ArquivoMusica;
@@ -18,8 +18,8 @@ public class ArquivoMusicaService {
     private MusicaRepository musicaRepository;
     private MusicaArquivoStorageService storageService;
     private StorageProperties storageProperties;
-    private ConfigProperties configProperties;
 
+    private AuthProperties properties;
     @Transactional
     public ArquivoMusica salvar(ArquivoMusica arquivo, InputStream inputStream) {
         var musicaId = arquivo.getMusica().getId();
@@ -51,7 +51,7 @@ public class ArquivoMusicaService {
         if (storageProperties.getTipo().equals(StorageProperties.TipoStorage.S3)) {
             return storageService.gerarUrlArquivo(nomeArquivo);
         } else {
-            return String.format("%s/musicas/%d/arquivo", configProperties.getUrl(), musicaId);
+            return String.format("%s/musicas/%d/arquivo", properties.getProviderUrl(), musicaId);
         }
     }
 

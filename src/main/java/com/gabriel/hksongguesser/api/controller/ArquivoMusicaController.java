@@ -4,8 +4,6 @@ import com.gabriel.hksongguesser.api.assembler.ArquivoMusicaAssembler;
 import com.gabriel.hksongguesser.api.domain.model.ArquivoMusicaCompletoModel;
 import com.gabriel.hksongguesser.api.domain.request.ArquivoMusicaRequest;
 import com.gabriel.hksongguesser.api.security.CheckSecurity;
-import com.gabriel.hksongguesser.core.config.ConfigProperties;
-import com.gabriel.hksongguesser.core.infrastructure.storage.StorageProperties;
 import com.gabriel.hksongguesser.domain.exception.EntidadeNaoEncontradaException;
 import com.gabriel.hksongguesser.domain.model.ArquivoMusica;
 import com.gabriel.hksongguesser.domain.service.ArquivoMusicaService;
@@ -19,10 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 import static org.springframework.http.MediaType.parseMediaType;
-import static org.springframework.http.MediaType.parseMediaTypes;
 
 @RestController
 @AllArgsConstructor

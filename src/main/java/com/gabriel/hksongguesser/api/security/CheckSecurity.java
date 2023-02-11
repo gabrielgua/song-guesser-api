@@ -25,13 +25,13 @@ public @interface CheckSecurity {
     public @interface Perguntas {
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
-        @PreAuthorize("hasRole('ROLE_ANONYMOUS') or hasAuthority('ADMIN')")
+        @PreAuthorize("hasRole('ROLE_ANONYMOUS') or @authorizationConfig.isAdmin")
         public @interface podeGerar {}
 
 
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
-        @PreAuthorize("hasRole('ROLE_ANONYMOUS') or hasAuthority('ADMIN')")
+        @PreAuthorize("hasRole('ROLE_ANONYMOUS') or @authorizationConfig.isAdmin")
         public @interface podeResponder {}
 
 
