@@ -21,7 +21,7 @@ import java.util.List;
 @EnableMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig {
 
-    private static final String[] AUTH_WHITELIST = { "/login", "/logout", "/oauth2/logout", "/perguntas/*" };
+    private static final String[] AUTH_WHITELIST = { "/login", "/logout", "/oauth2/logout", "/perguntas/*"};
 
     @Bean
     public SecurityFilterChain authFilterChain(HttpSecurity http, AuthProperties properties) throws Exception {
@@ -29,6 +29,7 @@ public class ResourceServerConfig {
             try {
                 authorize
                         .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/musicas/{musicaId}/arquivo").permitAll()
                         .and().authorizeHttpRequests().anyRequest().authenticated()
                         .and().logout()
                             .clearAuthentication(true)

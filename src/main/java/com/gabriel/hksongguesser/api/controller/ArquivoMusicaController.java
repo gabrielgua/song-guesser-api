@@ -32,7 +32,7 @@ public class ArquivoMusicaController {
 
 
     @GetMapping(produces = MediaType.ALL_VALUE)
-    @CheckSecurity.Recursos.podeConsultar
+    @CheckSecurity.Arquivos.podeConsultar
     public ResponseEntity<?> servirArquivo(@PathVariable Long musicaId) {
         try {
             var arquivoMusica = arquivoMusicaService.buscarPorId(musicaId);

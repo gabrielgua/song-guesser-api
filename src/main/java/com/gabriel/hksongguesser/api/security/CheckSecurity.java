@@ -22,6 +22,13 @@ public @interface CheckSecurity {
 
     }
 
+    public @interface Arquivos {
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        @PreAuthorize("hasRole('ROLE_ANONYMOUS') or @authorizationConfig.isAdmin")
+        public @interface podeConsultar {}
+    }
+
     public @interface Perguntas {
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
@@ -33,7 +40,6 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         @PreAuthorize("hasRole('ROLE_ANONYMOUS') or @authorizationConfig.isAdmin")
         public @interface podeResponder {}
-
 
     }
 }
