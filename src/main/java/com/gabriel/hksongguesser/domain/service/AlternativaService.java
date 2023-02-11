@@ -33,7 +33,7 @@ public class AlternativaService {
 
     public Alternativa salvar(Alternativa alternativa) {
         var musica = musicaService.buscarPorId(alternativa.getMusica().getId());
-        if (musica.getAlternativa() != null) {
+        if (musica.getAlternativa() != null && !musica.getAlternativa().getId().equals(alternativa.getId())) {
             throw new MusicaJaPossuiAlternativaException(String.format("Música de id: #%S já possui uma alternativa.", musica.getId()));
         }
 

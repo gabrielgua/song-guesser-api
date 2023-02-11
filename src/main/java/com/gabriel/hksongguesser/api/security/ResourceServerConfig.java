@@ -3,7 +3,6 @@ package com.gabriel.hksongguesser.api.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,15 +20,18 @@ import java.util.List;
 @EnableMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig {
 
-    private static final String[] AUTH_WHITELIST = { "/login", "/logout", "/oauth2/logout", "/perguntas/*"};
+    private static final String[] AUTH_WHITELIST = {
+            "/login", "/logout", "/oauth2/logout", "/perguntas/*", "/fonts/**" };
 
     @Bean
     public SecurityFilterChain authFilterChain(HttpSecurity http, AuthProperties properties) throws Exception {
         http.authorizeHttpRequests((authorize) -> {
             try {
                 authorize
+
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.GET, "/musicas/{musicaId}/arquivo").permitAll()
+
                         .and().authorizeHttpRequests().anyRequest().authenticated()
                         .and().logout()
                             .clearAuthentication(true)
@@ -44,6 +46,7 @@ public class ResourceServerConfig {
             }
         });
 
+
         http.logout(logoutConfig -> {
             logoutConfig.logoutSuccessHandler((request, response, authentication) -> {
                 String returnTo = request.getParameter("returnTo");
@@ -57,7 +60,7 @@ public class ResourceServerConfig {
         });
 
 
-        http.formLogin(Customizer.withDefaults());
+        http.formLogin(customizer -> customizer.loginPage("/login"));
         return http.build();
     }
 
