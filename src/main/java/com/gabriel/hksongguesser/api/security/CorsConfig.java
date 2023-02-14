@@ -1,4 +1,4 @@
-package com.gabriel.hksongguesser.core.security;
+package com.gabriel.hksongguesser.api.security;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
