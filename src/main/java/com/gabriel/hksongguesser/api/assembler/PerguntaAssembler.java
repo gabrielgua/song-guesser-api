@@ -1,6 +1,5 @@
 package com.gabriel.hksongguesser.api.assembler;
 
-import com.gabriel.hksongguesser.api.domain.model.PerguntaHardModel;
 import com.gabriel.hksongguesser.api.domain.model.PerguntaModel;
 import com.gabriel.hksongguesser.domain.model.Pergunta;
 import org.modelmapper.ModelMapper;

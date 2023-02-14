@@ -21,7 +21,7 @@ public class PerguntaService {
         return repository.findAll();
     }
 
-    public Pergunta gerarPerguntaComAlternativasRandom(Musica musica) {
+    public Pergunta gerarPergunta(Musica musica) {
         var pergunta = new Pergunta();
         pergunta.setId(musica.getId());
         pergunta.setMusica(musica);
@@ -29,11 +29,4 @@ public class PerguntaService {
         pergunta.setAlternativas(alternativaService.gerarAlternativasParaMusica(musica));
         return pergunta;
     }
-
-    public Musica gerarPerguntaSemAlternativas(Musica musica) {
-        return musica;
-    }
-
-
-
 }

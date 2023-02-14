@@ -16,36 +16,31 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
 public class ResourceServerConfig {
 
     private static final String[] AUTH_WHITELIST = {
-            "/login", "/logout", "/oauth2/logout", "/perguntas/*", "/fonts/**" };
+            "/login", "/logout", "/oauth2/logout", "/perguntas/*", "/fonts/**", "/css/**", "/images/**" };
 
     @Bean
     public SecurityFilterChain authFilterChain(HttpSecurity http, AuthProperties properties) throws Exception {
-        http.authorizeHttpRequests((authorize) -> {
-            try {
-                authorize
 
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/musicas/{musicaId}/arquivo").permitAll()
-
-                        .and().authorizeHttpRequests().anyRequest().authenticated()
-                        .and().logout()
-                            .clearAuthentication(true)
-                            .invalidateHttpSession(true)
-                            .deleteCookies()
-                        .and()
-                        .csrf().disable()
-                        .oauth2ResourceServer().jwt()
-                        .jwtAuthenticationConverter(jwtAuthenticationConverter());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-
+        http.formLogin(customizer -> customizer.loginPage("/login"))
+                .csrf().disable()
+                .cors()
+                .and()
+                .authorizeHttpRequests(authorize -> {
+                    try {
+                        authorize
+                                .requestMatchers(AUTH_WHITELIST).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/musicas/{musicaId}/arquivo").permitAll()
+                                .and().authorizeHttpRequests().anyRequest().authenticated();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    };
+                })
+                .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
 
         http.logout(logoutConfig -> {
             logoutConfig.logoutSuccessHandler((request, response, authentication) -> {
@@ -56,11 +51,13 @@ public class ResourceServerConfig {
 
                 response.setStatus(302);
                 response.sendRedirect(returnTo);
-            });
+            })
+            .clearAuthentication(true)
+            .invalidateHttpSession(true)
+            .deleteCookies();
         });
 
 
-        http.formLogin(customizer -> customizer.loginPage("/login"));
         return http.build();
     }
 
